@@ -27,20 +27,6 @@ footer{
     align-items: center;
 }
 
-/* products */
-
-/* .products{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    list-style-type: none;
-}
-
-.product-item {
-    flex:1
-} */
-
 .card:hover{
     transform: scale(1.05);
     transition-duration: 1s;
@@ -49,4 +35,17 @@ footer{
 .card-body{
     color: black;
     text-decoration: none;
+}
+
+
+/* filter css */
+
+.filter{
+    /* background: red; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 70%;
+    margin: auto;
+    padding: 15px;
 }
