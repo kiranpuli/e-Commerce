@@ -5,16 +5,42 @@ import "./App.css";
 import data from "./data.json";
 import Products from "./components/Products";
 import Filter from "./components/Filter";
+import Cart from "./components/Cart";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       products: data.products,
+      cart: [],
       size: "",
       sort: "",
     };
   }
+
+  addToCart = (product) => {
+    const cart = this.state.cart.slice();
+    let isPresent = false;
+
+    cart.forEach((e) => {
+      if (e._id === product._id) {
+        e.count++;
+        isPresent = true;
+      }
+    });
+
+    if (!isPresent) {
+      cart.push({ ...product, count: 1 });
+    }
+
+    this.setState({ cart });
+  };
+
+  removeCartItem = (product) => {
+    const cart = this.state.cart.slice();
+    // let newCart=cart.filter(e=>e._id!==product._id);
+    this.setState({ cart: cart.filter((e) => e._id !== product._id) });
+  };
 
   filterSort = (e) => {
     const sort = e.target.value;
@@ -72,7 +98,7 @@ class App extends Component {
           </ul>
         </nav>
         <main>
-          <div className="main">
+          <div className="main p-1">
             <Filter
               count={this.state.products.length}
               sort={this.state.sort}
@@ -80,10 +106,15 @@ class App extends Component {
               filterSort={this.filterSort}
               filterSize={this.filterSize}
             />
-            <Products products={this.state.products} />
+            <Products
+              products={this.state.products}
+              addToCart={this.addToCart}
+            />
           </div>
 
-          <div className="sidebar">Cart</div>
+          <div className="sidebar shadow p-1">
+            <Cart cart={this.state.cart} removeCartItem={this.removeCartItem} />
+          </div>
         </main>
         <footer className="bg-dark text-light">
           Made by Kiran Puli, Copyright @2020

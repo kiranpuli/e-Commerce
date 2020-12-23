@@ -17,7 +17,12 @@ export default class Products extends Component {
                 <h5 className="card-text">{e.title}</h5>
                 <h5>{"$" + e.price}</h5>
                 <span>
-                  <button className="btn btn-success">Add to cart</button>
+                  <button
+                    onClick={() => this.props.addToCart(e)}
+                    className="btn btn-success"
+                  >
+                    Add to cart
+                  </button>
                 </span>
               </div>
             </a>
