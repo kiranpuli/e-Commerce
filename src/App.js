@@ -12,17 +12,19 @@ class App extends Component {
     super();
     this.state = {
       products: data.products,
-      cart: [],
+      cart: localStorage.getItem("cart")
+        ? JSON.parse(localStorage.getItem("cart"))
+        : [],
       size: "",
       sort: "",
     };
   }
 
   addToCart = (product) => {
-    const cart = this.state.cart.slice();
+    const newCart = this.state.cart.slice();
     let isPresent = false;
 
-    cart.forEach((e) => {
+    newCart.forEach((e) => {
       if (e._id === product._id) {
         e.count++;
         isPresent = true;
@@ -30,16 +32,18 @@ class App extends Component {
     });
 
     if (!isPresent) {
-      cart.push({ ...product, count: 1 });
+      newCart.push({ ...product, count: 1 });
     }
 
-    this.setState({ cart });
+    this.setState({ cart: newCart });
+    localStorage.setItem("cart", JSON.stringify(newCart));
   };
 
   removeCartItem = (product) => {
     const cart = this.state.cart.slice();
-    // let newCart=cart.filter(e=>e._id!==product._id);
-    this.setState({ cart: cart.filter((e) => e._id !== product._id) });
+    let newCart = cart.filter((e) => e._id !== product._id);
+    this.setState({ cart: newCart });
+    localStorage.setItem("cart", JSON.stringify(newCart));
   };
 
   filterSort = (e) => {
@@ -81,8 +85,13 @@ class App extends Component {
     }
   };
 
+  createOrder = (order) => {
+    // alert("save " + order.name);
+    console.log(order);
+  };
   render() {
     // console.log(data.products);
+    // console.log(localStorage.getItem("cart"));
     return (
       <div className="App container-fluid">
         <nav className="navbar navbar-dark bg-dark">
@@ -112,8 +121,12 @@ class App extends Component {
             />
           </div>
 
-          <div className="sidebar shadow p-1">
-            <Cart cart={this.state.cart} removeCartItem={this.removeCartItem} />
+          <div className="sidebar p-1">
+            <Cart
+              cart={this.state.cart}
+              removeCartItem={this.removeCartItem}
+              createOrder={this.createOrder}
+            />
           </div>
         </main>
         <footer className="bg-dark text-light">
