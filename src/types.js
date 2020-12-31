@@ -1,3 +1,6 @@
 export const FETCH_PRODUCTS = "FETCH_PRODUCTS";
 export const SET_MODAL_PRODUCT = "SET_MODAL_PRODUCT";
 export const UNSET_MODAL_PRODUCT = "UNSET_MODAL_PRODUCT";
+export const SIZE_FILTER = "SIZE_FILTER";
+export const ORDER_FILTER = "ORDER_FILTER";
+export const FILTER = "FILTER";

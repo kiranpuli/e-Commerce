@@ -18,15 +18,18 @@ class Products extends Component {
   }
 
   render() {
-    const { products, modalProduct } = this.props;
+    const { filterProducts, modalProduct } = this.props;
+    console.log(filterProducts + "\n");
     return (
       <div>
         <Fade bottom cascade={true}>
-          {products.length === 0 ? (
-            <h1>Loading...</h1>
+          {filterProducts.length === 0 ? (
+            <h1 className="text-center text-info p-5">
+              Oops no more products...
+            </h1>
           ) : (
             <ul className="products row">
-              {products.map((e) => (
+              {filterProducts.map((e) => (
                 <a
                   key={e._id}
                   href={"#" + e._id}
@@ -96,7 +99,7 @@ class Products extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    products: state.products,
+    filterProducts: state.filterProducts,
     modalProduct: state.modalProduct,
   };
 };
