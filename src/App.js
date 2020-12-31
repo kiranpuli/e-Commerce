@@ -1,25 +1,15 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import "./bootstrap.min.css";
 import "./App.css";
 
-import data from "./data.json";
+// import data from "./data.json";
 import Products from "./components/Products";
 import Filter from "./components/Filter";
 import Cart from "./components/Cart";
+import { ORDER_FILTER, SIZE_FILTER } from "./types";
 
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      products: data.products,
-      cart: localStorage.getItem("cart")
-        ? JSON.parse(localStorage.getItem("cart"))
-        : [],
-      size: "",
-      sort: "",
-    };
-  }
-
   addToCart = (product) => {
     const newCart = this.state.cart.slice();
     let isPresent = false;
@@ -46,52 +36,11 @@ class App extends Component {
     localStorage.setItem("cart", JSON.stringify(newCart));
   };
 
-  filterSort = (e) => {
-    const sort = e.target.value;
-    this.setState((state) => ({
-      sort: sort,
-      products: this.state.products
-        .slice()
-        .sort((a, b) =>
-          sort === "highest"
-            ? a.price <= b.price
-              ? 1
-              : -1
-            : sort === "lowest"
-            ? a.price > b.price
-              ? 1
-              : -1
-            : a._id > b._id
-            ? 1
-            : -1
-        ),
-    }));
-  };
-
-  filterSize = (e) => {
-    const size = e.target.value;
-    if (size === "") {
-      this.setState({
-        products: data.products,
-        size,
-      });
-    } else {
-      this.setState({
-        products: data.products.filter(
-          (e) => e.availableSizes.indexOf(size) >= 0
-        ),
-        size,
-      });
-    }
-  };
-
   createOrder = (order) => {
-    // alert("save " + order.name);
     console.log(order);
   };
   render() {
-    // console.log(data.products);
-    // console.log(localStorage.getItem("cart"));
+    const { products } = this.props;
     return (
       <div className="App container-fluid">
         <nav className="navbar navbar-dark bg-dark">
@@ -108,22 +57,13 @@ class App extends Component {
         </nav>
         <main>
           <div className="main p-1">
-            <Filter
-              count={this.state.products.length}
-              sort={this.state.sort}
-              size={this.state.size}
-              filterSort={this.filterSort}
-              filterSize={this.filterSize}
-            />
-            <Products
-              products={this.state.products}
-              addToCart={this.addToCart}
-            />
+            <Filter />
+            <Products addToCart={this.addToCart} />
           </div>
 
           <div className="sidebar p-1">
             <Cart
-              cart={this.state.cart}
+              cart={this.props.cart}
               removeCartItem={this.removeCartItem}
               createOrder={this.createOrder}
             />
@@ -137,4 +77,24 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    products: state.products,
+    size: state.sizeFilter,
+    order: state.orderFilter,
+    cart: state.cart,
+  };
+};
+
+const mapDispatchTOProps = (dispatch) => {
+  return {
+    filterSize: (data) => {
+      dispatch({ type: SIZE_FILTER, payload: data });
+    },
+    filterOrder: (data) => {
+      dispatch({ type: ORDER_FILTER, payload: data });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchTOProps)(App);
