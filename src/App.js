@@ -10,31 +10,31 @@ import Cart from "./components/Cart";
 import { ORDER_FILTER, SIZE_FILTER } from "./types";
 
 class App extends Component {
-  addToCart = (product) => {
-    const newCart = this.state.cart.slice();
-    let isPresent = false;
+  // addToCart = (product) => {
+  //   const newCart = this.state.cart.slice();
+  //   let isPresent = false;
 
-    newCart.forEach((e) => {
-      if (e._id === product._id) {
-        e.count++;
-        isPresent = true;
-      }
-    });
+  //   newCart.forEach((e) => {
+  //     if (e._id === product._id) {
+  //       e.count++;
+  //       isPresent = true;
+  //     }
+  //   });
 
-    if (!isPresent) {
-      newCart.push({ ...product, count: 1 });
-    }
+  //   if (!isPresent) {
+  //     newCart.push({ ...product, count: 1 });
+  //   }
 
-    this.setState({ cart: newCart });
-    localStorage.setItem("cart", JSON.stringify(newCart));
-  };
+  //   this.setState({ cart: newCart });
+  //   localStorage.setItem("cart", JSON.stringify(newCart));
+  // };
 
-  removeCartItem = (product) => {
-    const cart = this.state.cart.slice();
-    let newCart = cart.filter((e) => e._id !== product._id);
-    this.setState({ cart: newCart });
-    localStorage.setItem("cart", JSON.stringify(newCart));
-  };
+  // removeCartItem = (product) => {
+  //   const cart = this.state.cart.slice();
+  //   let newCart = cart.filter((e) => e._id !== product._id);
+  //   this.setState({ cart: newCart });
+  //   localStorage.setItem("cart", JSON.stringify(newCart));
+  // };
 
   createOrder = (order) => {
     console.log(order);
@@ -58,13 +58,15 @@ class App extends Component {
         <main>
           <div className="main p-1">
             <Filter />
-            <Products addToCart={this.addToCart} />
+            <Products
+            // addToCart={this.addToCart}
+            />
           </div>
 
           <div className="sidebar p-1">
             <Cart
-              cart={this.props.cart}
-              removeCartItem={this.removeCartItem}
+              // cart={this.props.cart}
+              // removeCartItem={this.removeCartItem}
               createOrder={this.createOrder}
             />
           </div>
@@ -82,11 +84,11 @@ const mapStateToProps = (state) => {
     products: state.products,
     size: state.sizeFilter,
     order: state.orderFilter,
-    cart: state.cart,
+    // cart: state.cart,
   };
 };
 
-const mapDispatchTOProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     filterSize: (data) => {
       dispatch({ type: SIZE_FILTER, payload: data });
@@ -97,4 +99,4 @@ const mapDispatchTOProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchTOProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

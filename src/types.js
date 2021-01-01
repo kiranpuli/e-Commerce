@@ -4,3 +4,5 @@ export const UNSET_MODAL_PRODUCT = "UNSET_MODAL_PRODUCT";
 export const SIZE_FILTER = "SIZE_FILTER";
 export const ORDER_FILTER = "ORDER_FILTER";
 export const FILTER = "FILTER";
+export const ADD_TO_CART = "ADD_TO_CART";
+export const REMOVE_CART_ITEM = "REMOVE_CART_ITEM";

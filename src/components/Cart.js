@@ -1,6 +1,8 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import "../App.css";
 import Slide from "react-reveal/Slide";
+import { REMOVE_CART_ITEM } from "../types";
 export class Cart extends Component {
   constructor(props) {
     super(props);
@@ -127,4 +129,21 @@ export class Cart extends Component {
   }
 }
 
-export default Cart;
+const mapStateToProps = (state) => {
+  return {
+    // products: state.products,
+    // size: state.sizeFilter,
+    // order: state.orderFilter,
+    cart: state.cart,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    removeCartItem: (data) => {
+      dispatch({ type: REMOVE_CART_ITEM, payload: data });
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);
