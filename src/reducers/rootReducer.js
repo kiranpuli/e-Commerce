@@ -4,6 +4,8 @@ import {
   UNSET_MODAL_PRODUCT,
   SIZE_FILTER,
   ORDER_FILTER,
+  ADD_TO_CART,
+  REMOVE_CART_ITEM,
 } from "../types";
 
 const initState = {
@@ -16,7 +18,8 @@ const initState = {
 };
 
 const rootReducer = (state = initState, { type, payload }) => {
-  let newModalProduct;
+  let newModalProduct, product;
+  let newCart;
   switch (type) {
     case FETCH_PRODUCTS:
       let newData = payload;
@@ -75,9 +78,53 @@ const rootReducer = (state = initState, { type, payload }) => {
         filterProducts: newProducts,
         orderFilter: payload,
       };
+    case ADD_TO_CART:
+      newCart = state.cart.slice();
+      product = payload;
+      let isPresent = false;
+      newCart.forEach((e) => {
+        if (e._id === product._id) {
+          e.count++;
+          isPresent = true;
+        }
+      });
+
+      if (!isPresent) {
+        newCart.push({ ...product, count: 1 });
+      }
+      return {
+        ...state,
+        cart: newCart,
+      };
+    case REMOVE_CART_ITEM:
+      product = payload;
+      newCart = state.cart.filter((e) => e._id !== product._id);
+      return {
+        ...state,
+        cart: newCart,
+      };
     default:
       return state;
   }
 };
 
 export default rootReducer;
+
+// addToCart = (product) => {
+// const newCart = this.state.cart.slice();
+// let isPresent = false;
+
+// newCart.forEach((e) => {
+//   if (e._id === product._id) {
+//     e.count++;
+//     isPresent = true;
+//   }
+// });
+
+// if (!isPresent) {
+//   newCart.push({ ...product, count: 1 });
+// }
+
+// this.setState({ cart: newCart });
+//     localStorage.setItem("cart", JSON.stringify(newCart));
+//   };

@@ -5,6 +5,7 @@ import Zoom from "react-reveal/Zoom";
 import Modal from "react-modal";
 import { connect } from "react-redux";
 import {
+  ADD_TO_CART,
   FETCH_PRODUCTS,
   SET_MODAL_PRODUCT,
   UNSET_MODAL_PRODUCT,
@@ -114,6 +115,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     unsetModalProduct: () => {
       dispatch({ type: UNSET_MODAL_PRODUCT, payload: null });
+    },
+    addToCart: (data) => {
+      dispatch({ type: ADD_TO_CART, payload: data });
     },
   };
 };
