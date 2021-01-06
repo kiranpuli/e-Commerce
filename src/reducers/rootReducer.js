@@ -109,22 +109,3 @@ const rootReducer = (state = initState, { type, payload }) => {
 };
 
 export default rootReducer;
-
-// addToCart = (product) => {
-// const newCart = this.state.cart.slice();
-// let isPresent = false;
-
-// newCart.forEach((e) => {
-//   if (e._id === product._id) {
-//     e.count++;
-//     isPresent = true;
-//   }
-// });
-
-// if (!isPresent) {
-//   newCart.push({ ...product, count: 1 });
-// }
-
-// this.setState({ cart: newCart });
-//     localStorage.setItem("cart", JSON.stringify(newCart));
-//   };
